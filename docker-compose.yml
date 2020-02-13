@@ -2,6 +2,8 @@ version: '3.7'
 services:
  webserver:
     build: .
+    image: webserver
+    container_name: webserver
     ports:
       - "80:80"
       - "443:443"
@@ -10,5 +12,3 @@ services:
       - /home/docker_home:/home
       - /etc/letsencrypt/:/etc/letsencrypt/
       - /var/log/docker_log/webserver:/var/log/
-    image: webserver
-    container_name: webserver
