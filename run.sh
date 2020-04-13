@@ -1,1 +1,2 @@
-/usr/sbin/nginx -c /etc/nginx/nginx.conf
+#!/usr/bin/bash
+mkdir -p /run/php-fpm/

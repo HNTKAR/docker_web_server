@@ -4,11 +4,16 @@ services:
     build: .
     image: webserver
     container_name: webserver
+    restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /mnt:/mnt
-      - /home/docker_home:/home
+      - /home/docker_home/webserver/conf.d/:/etc/nginx/user_conf.d/
+      #- /home/docker_home/webserver/nginx/:/usr/share/nginx/
       - /etc/letsencrypt/:/etc/letsencrypt/
-      - /var/log/docker_log/webserver:/var/log/
+      #- /var/log/docker_log/webserver:/var/log/
+networks:
+  default:
+    external:
+      name: default_bridge
