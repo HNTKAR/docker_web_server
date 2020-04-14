@@ -8,6 +8,7 @@ sed  -i -e "/http\ /a \ \ \ \ server_tokens off;" \
 
 mkdir /etc/nginx/default_conf.d
 cp /etc/nginx/conf.d/default.conf /etc/nginx/default_conf.d/default.conf.old
+cp -r /usr/share/nginx/html /etc/nginx/default_conf.d/
 
 #/etc/rsyslog.conf
 sed -i -e "/imjournal/ s/^/#/" \
@@ -17,10 +18,14 @@ sed -i -e "/imjournal/ s/^/#/" \
 echo """
 #set default config file
 cp /etc/nginx/default_conf.d/default.conf.old /etc/nginx/user_conf.d/default.conf.old
-#start web program
-/usr/sbin/rsyslogd
+cp -r /etc/nginx/default_conf.d/html /usr/share/nginx/html
+chown -R nginx:nginx /etc/nginx/user_conf.d
+chown -R nginx:nginx /usr/share/nginx/html
 
-/usr/sbin/nginx -c /etc/nginx/nginx.conf
+#start web program
+rsyslogd
+
+nginx -c /etc/nginx/nginx.conf
 
 php-fpm
 

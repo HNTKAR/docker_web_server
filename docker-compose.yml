@@ -10,9 +10,9 @@ services:
       - "443:443"
     volumes:
       - /home/docker_home/webserver/conf.d/:/etc/nginx/user_conf.d/
-      #- /home/docker_home/webserver/nginx/:/usr/share/nginx/
+      - /home/docker_home/webserver/nginx/:/usr/share/nginx/
       - /etc/letsencrypt/:/etc/letsencrypt/
-      #- /var/log/docker_log/webserver:/var/log/
+      - /var/log/docker_log/webserver:/var/log/
 networks:
   default:
     external:
