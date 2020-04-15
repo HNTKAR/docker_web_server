@@ -4,19 +4,15 @@ services:
     build:
       context: .
       args:
-        root_password: test
+        root_password: password
     image: database
     container_name: database
     restart: always
-    #    ports:
-    #  - "25:25"
-    #  - "465:465"
-    #  - "587:587"
-    #  - "993:993"
-    #  - "995:995"
+    #ports:
+      #- "3306:3306"
     volumes:
-      - /home/docker_home/database/:/home
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /home/docker_home/database/:/var/lib/mysql
       - /var/log/docker_log/database:/var/log/
 networks:
   default:
