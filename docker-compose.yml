@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  database:        
+    build:
+      context: .
+      args:
+        root_password: test
+    image: database
+    container_name: database
+    restart: always
+    #    ports:
+    #  - "25:25"
+    #  - "465:465"
+    #  - "587:587"
+    #  - "993:993"
+    #  - "995:995"
+    volumes:
+      - /home/docker_home/database/:/home
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/log/docker_log/database:/var/log/
+networks:
+  default:
+    external:
+      name: default_bridge
