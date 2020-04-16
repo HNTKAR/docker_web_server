@@ -1,7 +1,8 @@
 version: '3.7'
 services:
  webserver:
-    build: .
+    build:
+      context: .
     image: webserver
     container_name: webserver
     restart: always
