@@ -8,6 +8,8 @@ if [ "x$setting_file_version" != "x$version_code" ];then
         exit 1;
 fi;
 
+cd $(dirname $0)
+
 #read setting file
 sed -e "s/^##.*//g"  setting.txt |\
        	sed -ze "s/.*=====general=====//g" \
