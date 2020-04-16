@@ -1,4 +1,5 @@
 version: '3.7'
+
 services:
   database:        
     build:
@@ -8,12 +9,13 @@ services:
     image: database
     container_name: database
     restart: always
-    #ports:
-      #- "3306:3306"
+    ports:
+      - "3306:3306"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
-      - /home/docker_home/database/:/var/lib/mysql
       - /var/log/docker_log/database:/var/log/
+      - /home/docker_home/database/:/var/lib/mysql
+
 networks:
   default:
     external:
