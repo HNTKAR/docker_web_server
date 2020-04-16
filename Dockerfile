@@ -3,7 +3,6 @@ MAINTAINER kusari-k
 
 EXPOSE 80 443
 
-RUN dnf update -y
 RUN echo -e """[nginx-stable] \n\
 name=nginx stable repo \n\
 baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/ \n\
@@ -18,8 +17,10 @@ gpgcheck=1 \n\
 enabled=1 \n\
 gpgkey=https://nginx.org/keys/nginx_signing.key \n\
 module_hotfixes=true""">/etc/yum.repos.d/nginx.repo
-RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm &&\
-	dnf install -y nginx rsyslog @php:remi-7.3 php-mysql &&\
+RUN sed -i -e "\$afastestmirror=true" /etc/dnf/dnf.conf
+RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm && \
+	dnf update -y && \
+	dnf install -y nginx rsyslog @php:remi-7.3 php-mysql && \
 	dnf clean all
 
 #/etc/nginx/nginx.conf
@@ -55,14 +56,14 @@ RUN sed -i -e "/user\ =/ s/apache/nginx/" \
 	-e "/max_spare_servers/ s/35/20/" \
 	-e "/max_requests/ s/;//" /etc/php-fpm.d/www.conf
 
+#/etc/rsyslog.conf
+RUN sed -i -e "/imjournal/ s/^/#/" \
+	-e "s/off/on/" /etc/rsyslog.conf
+
 RUN mkdir /etc/nginx/default_conf.d /etc/nginx/ssl && \
 	cp /etc/nginx/conf.d/default.conf /etc/nginx/default_conf.d/default.conf.old && \
 	cp -r /usr/share/nginx/html /etc/nginx/default_conf.d/ && \
 	openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-
-#/etc/rsyslog.conf
-RUN sed -i -e "/imjournal/ s/^/#/" \
-	-e "s/off/on/" /etc/rsyslog.conf
 
 COPY run.sh  /usr/local/bin/
 RUN  chmod 755 /usr/local/bin/run.sh
