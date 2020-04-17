@@ -41,14 +41,21 @@ if [ ${yn,,} = "y" ]; then
 	docker-compose up --build -d
 	rm -fr remove_firewall.sh
 
-	grep access_ip system.log | \
-		sed -e "s/.*://" | \
-		xargs -I {} \
-		firewall-cmd --direct --add-rule ipv4 filter DOCKER-USER 1 ! -s {} -p tcp --dport 3306 -j DROP
-	grep access_ip system.log | \
-		sed -e "s/.*://" | \
-		xargs -I {} \
-		echo "firewall-cmd --direct --remove-rule ipv4 filter DOCKER-USER 1 ! -s {} -p tcp --dport 3306 -j DROP">>remove_firewall.sh && \
+	firewall_opt=$(grep firewall_block system.log | sed -e "s/.*://")
+	if [ x${firewall_opt,,} = "xon" ]; then
+		firewall-cmd --direct --add-chain ipv4 filter DOCKER-USER-DB && \
+		firewall-cmd --direct --add-rule ipv4 filter DOCKER-USER 1 -j DOCKER-USER-DB && \
+		firewall-cmd --direct --add-rule ipv4 filter DOCKER-USER-DB 99 -p tcp --dport 3306 -j DROP && \
+		grep access_ip system.log | \
+			sed -e "s/.*://" | \
+			xargs -I {} firewall-cmd --direct --add-rule ipv4 filter DOCKER-USER-DB 1 -s {} -p tcp --dport 3306 -j ACCEPT && \
+		grep access_ip system.log | \
+			sed -e "s/.*://" | \
+			xargs -I {} echo "firewall-cmd --direct --remove-rule ipv4 filter DOCKER-USER-DB 1 -s {} -p tcp --dport 3306 -j ACCEPT">>remove_firewall.sh && \
+		echo "firewall-cmd --direct --remove-rule ipv4 filter DOCKER-USER-DB 99 -p tcp --dport 3306 -j DROP">>remove_firewall.sh && \
+		echo "firewall-cmd --direct --remove-rule ipv4 filter DOCKER-USER 1 -j DOCKER-USER-DB">>remove_firewall.sh && \
+		echo "firewall-cmd --direct --remove-chain ipv4 filter DOCKER-USER-DB">>remove_firewall.sh && \
 		chmod 775 remove_firewall.sh
+	fi
 fi
 rm *.log
