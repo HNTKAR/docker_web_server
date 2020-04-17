@@ -1,20 +1,20 @@
 version: '3.7'
 
 services:
- webserver:
+ WEB:
     build:
       context: .
-    image: webserver
-    container_name: webserver
+    image: web
+    container_name: WEB
     restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/letsencrypt/:/etc/letsencrypt/:ro
-      - /var/log/docker_log/webserver:/var/log/
-      - /home/docker_home/webserver/conf.d/:/etc/nginx/user_conf.d/
-      - /home/docker_home/webserver/nginx/:/usr/share/nginx/
+      - /etc/letsencrypt:/etc/letsencrypt/:ro
+      - /var/log/docker_log/webserver:/var/log
+      - /home/docker_home/webserver/conf.d:/etc/nginx/user_conf.d
+      - /home/docker_home/webserver/nginx:/usr/share/nginx
 
 networks:
   default:
