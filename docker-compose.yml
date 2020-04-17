@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
- WEB:
+  WEB:
     build:
       context: .
     image: web
@@ -11,7 +11,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt/:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - /var/log/docker_log/webserver:/var/log
       - /home/docker_home/webserver/conf.d:/etc/nginx/user_conf.d
       - /home/docker_home/webserver/nginx:/usr/share/nginx
