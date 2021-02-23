@@ -15,8 +15,3 @@ services:
       - /var/log/docker_log/webserver:/var/log
       - /home/docker_home/webserver/conf.d:/etc/nginx/user_conf.d
       - /home/docker_home/webserver/nginx:/usr/share/nginx
-
-networks:
-  default:
-    external:
-      name: default_bridge
