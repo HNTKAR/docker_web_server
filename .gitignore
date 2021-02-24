@@ -1,3 +1,6 @@
 setting.txt
+<<<<<<< HEAD
 letsencrypt
 *.service
+=======
+>>>>>>> remote2/master

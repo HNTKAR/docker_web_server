@@ -1,6 +1,7 @@
 version: '3.7'
 
 services:
+<<<<<<< HEAD
   WEB:
     build:
       context: .
@@ -15,3 +16,24 @@ services:
       - /var/log/docker_log/webserver:/var/log
       - /home/docker_home/webserver/conf.d:/etc/nginx/user_conf.d
       - /home/docker_home/webserver/nginx:/usr/share/nginx
+=======
+  DB:
+    build:
+      context: .
+      args:
+        root_password: password
+    image: db
+    container_name: DB
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/log/docker_log/database:/var/log
+      - /home/docker_home/database:/var/lib/mysql
+
+networks:
+  default:
+    external:
+      name: default_bridge
+>>>>>>> remote2/master
