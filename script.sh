@@ -14,7 +14,7 @@ cp -frp /home/podman/ssl_pod/letsencrypt .
 read -p "do you want to up this container ? (y/n):" yn
 if [ ${yn,,} = "y" ]; then
 	podman rmi -f nginx
-	podman rmi -f mariadb-master
+	podman rmi -f mariadb
 	podman build -f Dockerfile-nginx -t nginx:latest --build-arg WEB_DOMAIN=$WEB_DOMAIN --build-arg SSL_DOMAIN=$SSL_DOMAIN
 fi
 rm *.log
