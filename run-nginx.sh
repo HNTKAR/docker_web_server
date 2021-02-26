@@ -1,26 +1,18 @@
 #!/usr/bin/bash
 
-#start rsyslog
-rsyslogd
+mkdir -p -m 755 /log/nginx/
 
+if [ ! -e /conf/nginx.conf ];then
+	cp -frp /etc/nginx/* /conf
+fi
 
-#if [ ! -e /etc/nginx/user_conf.d/default.conf.old ]; then
-#	cp -frp /etc/nginx/default_conf.d/default.conf.old /etc/nginx/user_conf.d/default.conf.old && \
-#	cp -frp /etc/nginx/default_conf.d/html /usr/share/nginx/html && \
-#	echo $(date)>>/var/log/copy_default.log && \
-#	echo "Copy /etc/nginx/default_conf.d/default.conf.old from /etc/nginx/user_conf.d/default.conf.old">>/var/log/copy_default.log && \
-#	echo >>/var/log/copy_default.log
-#fi
-
+rm /usr/local/bin/setting.log
 #chown -R nginx:nginx /etc/nginx/user_conf.d
 #chown -R nginx:nginx /usr/share/nginx
 
+#start rsyslog
+rsyslogd
+
 #start nginx
-#nginx -c /etc/nginx/nginx.conf
-
-#mkdir -p /run/php-fpm/
-
-#start FastCGI
-#php-fpm
-
+nginx -c /conf/nginx.conf
 tail -f /dev/null
