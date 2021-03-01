@@ -22,7 +22,7 @@ podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/www_conf:/ng
 podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/db_data:/data -v /home/podman/web_pod/db_conf:/conf -v /home/podman/web_pod/db_log:/log --name mariadb mariadb
 ```
 ## **ファイルおよびフォルダ**
-<!-->
+<!--
 postfix  
 <details><summary>/home/podman/mail_pod/mta_spool/</summary><div>  
 
@@ -143,7 +143,7 @@ cyrus-imapd
 > echo "USER_DOMAIN smtp:USER_DOMAIN">> /conf/transport
 > postmap /conf/transport
 > ```
-<!-->
+-->
 
 ### 自動起動の設定
 > ```

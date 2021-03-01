@@ -16,11 +16,10 @@ RUN sed -i.old -e "/read\ / s/.*/echo/ " \
 
 #/etc/rsyslog.conf
 RUN sed -i -e "/imjournal/ s/^/#/" \
-	-e "s/off/on/" /etc/rsyslog.conf
-
-RUN cp -frp /var/lib/mysql /var/lib/mysql_default
+	-e "s/off/on/" \
+	-e "s/var\/log/log\/log/g" /etc/rsyslog.conf
 
 COPY run.sh  /usr/local/bin/
-RUN  chmod 755 /usr/local/bin/run.sh
+RUN  chmod 755 /usr/local/bin/run-mariaDB.sh
 
-ENTRYPOINT ["/usr/local/bin/run.sh"]
+ENTRYPOINT ["/usr/local/bin/run-mariaDB.sh"]

@@ -34,15 +34,6 @@ RUN sed -i -e "/^user/ s/apache/nginx/" \
 #	-e "/;mbstring.detect_order/ s/;//" \
 #	-e "/;mbstring.substitute_character/ s/;//" /etc/php.ini
 
-#/etc/php-fpm.d/www.conf
-#RUN sed -i -e "/user\ =/ s/apache/nginx/" \
-#	-e "/group\ =/ s/apache/nginx/" \
-#	-e "/max_children/ s/50/25/" \
-#	-e "/start_servers/ s/5/10/ " \
-#	-e "/min_spare_servers/ s/5/10/" \
-#	-e "/max_spare_servers/ s/35/20/" \
-#	-e "/max_requests/ s/;//" /etc/php-fpm.d/www.conf
-
 RUN sed -i -e "/imjournal/ s/^/#/" \
 	-e "s/off/on/" \
 	-e "s/var\/log/log\/log/g" /etc/rsyslog.conf
