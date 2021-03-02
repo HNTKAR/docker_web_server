@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-mkdir -p -m 755 /log/nginx/
+mkdir -p -m 755 /conf /log /log/nginx/
 
 if [ ! -e /conf/nginx.conf ];then
 	cp -frp /etc/nginx/* /conf
