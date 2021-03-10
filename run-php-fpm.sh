@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
-mkdir -p -m 644 /log /run/php-fpm/
+mkdir -p -m 755 /log /nginx_conf/conf.d /log/php-fpm/ /run/php-fpm/
+
 if [ ! -e /nginx_conf/conf.d/php-fpm.conf ];then
 	cp -frp /etc/nginx/conf.d/php-fpm.conf /nginx_conf/conf.d/php-fpm.conf
 fi

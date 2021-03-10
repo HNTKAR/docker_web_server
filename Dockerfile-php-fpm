@@ -11,32 +11,12 @@ COPY setting.log run-php-fpm.sh /usr/local/bin/
 
 RUN sed -i -e "s/var\/log/log/" /etc/php-fpm.conf
 
-RUN sed -i -e "/^user/ s/apache/nginx/" \
-	-e "/^group/ s/apache/nginx/" \
-	-e "s/var\/log/log/" \
-	-e "/^listen/ s/\/.*sock/127.0.0.1:9000/g" /etc/php-fpm.d/www.conf
-
-#/etc/php.ini
-#RUN sed -i -e "/expose_php/ s/On/Off/" \
-#	-e "/post_max_size/ s/8/500/" \
-#	-e "/upload_max_filesize/ s/2/500/" \
-#	-e "/;date\.timezone/ s/=/=\ \"Asia\/Tokyo\"/" \
-#	-e "/;date\.timezone/ s/;//" \
-#	-e "/;mbstring\.language/ s/;//" \
-#	-e "/;mbstring\.internal_encoding/ s/=/=\ UTF-8/" \
-#	-e "/;mbstring\.internal_encoding/ s/;//" \
-#	-e "/;mbstring\.http_input\ / s/=/=\ UTF-8/" \
-#	-e "/;mbstring\.http_input\ / s/;//" \
-#	-e "/;mbstring\.http_output\ / s/=/=\ pass/" \
-#	-e "/;mbstring\.http_output\ / s/;//" \
-#	-e "/;mbstring\.encoding_translation/ s/Off/On/" \
-#	-e "/;mbstring\.encoding_translation/ s/;//" \
-#	-e "/;mbstring.detect_order/ s/;//" \
-#	-e "/;mbstring.substitute_character/ s/;//" /etc/php.ini
+RUN sed -i -e "s/var\/log/log/" \
+	-e "/^listen/ s/=.*/= 127.0.0.1:9000/g" /etc/php-fpm.d/www.conf
 
 RUN sed -i -e "/imjournal/ s/^/#/" \
 	-e "s/off/on/" \
-	-e "s/var\/log/log\/log/g" /etc/rsyslog.conf
+	-e "s/var\/log/log/g" /etc/rsyslog.conf
 
 RUN  chmod 755 /usr/local/bin/run-php-fpm.sh
 ENTRYPOINT ["/usr/local/bin/run-php-fpm.sh"]

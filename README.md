@@ -14,10 +14,10 @@ db_password:email1:password1
 sudo firewall-cmd --add-forward-port=port=80:proto=tcp:toport=10080 --permanent
 sudo firewall-cmd --add-forward-port=port=443:proto=tcp:toport=10443 --permanent
 sudo firewall-cmd --reload
-sudo mkdir -p -m 777 /home/podman/web_pod/www_conf /home/podman/web_pod/www_log /home/podman/web_pod/app_log /home/podman/web_pod/db_data /home/podman/web_pod/db_conf /home/podman/web_pod/db_log 
+sudo mkdir -p -m 777 /home/podman/web_pod/www_conf/etc  /home/podman/web_pod/www_conf/usr /home/podman/web_pod/www_log /home/podman/web_pod/app_log /home/podman/web_pod/db_data /home/podman/web_pod/db_conf /home/podman/web_pod/db_log 
 ./script.sh
 podman pod create --replace=true -p 10080:80 -p 10443:443 -n web_pod --net slirp4netns:port_handler=slirp4netns
-podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/www_conf:/conf -v /home/podman/web_pod/www_log:/log --name nginx nginx
+podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/www_conf/etc:/conf/etc -v /home/podman/web_pod/www_conf/usr:/conf/usr -v /home/podman/web_pod/www_log:/log --name nginx nginx
 podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/www_conf:/nginx_conf -v /home/podman/web_pod/app_log:/log --name php-fpm php-fpm
 podman run --replace=true -td --pod web_pod -v /home/podman/web_pod/db_data:/data -v /home/podman/web_pod/db_conf:/conf -v /home/podman/web_pod/db_log:/log --name mariadb mariadb
 ```

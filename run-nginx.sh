@@ -1,18 +1,17 @@
 #!/usr/bin/bash
 
-mkdir -p -m 755 /conf /log /log/nginx/
+mkdir -p -m 755 /conf/etc /conf/usr /log /log/nginx/
 
 if [ ! -e /conf/nginx.conf ];then
-	cp -frp /etc/nginx/* /conf
+	cp -frp /etc/nginx/* /conf/etc
+	cp -frp /usr/share/nginx/* /conf/usr
 fi
 
 rm /usr/local/bin/setting.log
-#chown -R nginx:nginx /etc/nginx/user_conf.d
-#chown -R nginx:nginx /usr/share/nginx
 
 #start rsyslog
 rsyslogd
 
 #start nginx
-nginx -c /conf/nginx.conf
+nginx -c /conf/etc/nginx.conf
 tail -f /dev/null

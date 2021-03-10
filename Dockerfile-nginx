@@ -28,13 +28,12 @@ COPY letsencrypt /etc/letsencrypt
 
 #/etc/nginx/nginx.conf
 RUN sed  -i -e "/http\ /a \    server_tokens off;" \
-	-e "/keepalive/ s/65/5/" \
 	-e "s/var\/log/log/g" \
-	-e "s/etc\/nginx/conf/g" /etc/nginx/nginx.conf
+	-e "s/etc\/nginx/conf\/etc/g" /etc/nginx/nginx.conf
 
 RUN sed -i -e "/imjournal/ s/^/#/" \
 	-e "s/off/on/" \
-	-e "s/var\/log/log\/log/g" /etc/rsyslog.conf
+	-e "s/var\/log/log/g" /etc/rsyslog.conf
 
 RUN  chmod 755 /usr/local/bin/run-nginx.sh
 ENTRYPOINT ["/usr/local/bin/run-nginx.sh"]
